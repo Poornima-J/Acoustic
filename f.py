@@ -21,7 +21,7 @@ def clamp(min_value, max_value, value):
 class AudioBar:
     def __init__(self, x, y, freq, color, width=50, min_height=10, max_height=100, min_decibel=-80, max_decibel=0):
         self.x, self.y, self.freq = x, y, freq
-        self.color = color
+        self.color = "#FF00FF"
         self.width, self.min_height, self.max_height = width, min_height, max_height
         self.height = min_height
         self.min_decibel, self.max_decibel = min_decibel, max_decibel
@@ -74,6 +74,9 @@ screen_h = int(infoObject.current_w/2.5)
 # Set up the drawing window
 screen = pygame.display.set_mode([screen_w, screen_h])
 
+pygame.display.set_caption(src)
+
+background = pygame.image.load("image2.jpg")
 
 bars = []
 
@@ -105,6 +108,7 @@ while running:
     t = pygame.time.get_ticks()
     deltaTime = (t - getTicksLastFrame) / 1000.0
     getTicksLastFrame = t
+    
 
     # Did the user click the window close button?
     for event in pygame.event.get():
@@ -113,11 +117,13 @@ while running:
 
     # Fill the background with white
     screen.fill((255, 255, 255))
+    #background image
+    screen.blit(background,(0,0))
 
     for b in bars:
         b.update(deltaTime, get_decibel(b,pygame.mixer.music.get_pos()/1000.0, b.freq))
         b.render(screen)
-
+        
     # Flip the display
     pygame.display.flip()
 
