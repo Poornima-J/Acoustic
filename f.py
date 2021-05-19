@@ -1,84 +1,125 @@
-from os import path
-from pydub import AudioSegment
-
 # imports
 import matplotlib.pyplot as plt
 import numpy as np
-import pyaudio
-import wave
-import sys
-import struct 
-import time
+import librosa.display 
+import pygame 
+from os import path
+from pydub import AudioSegment
 
 
-CHUNK = 1024*2
+def clamp(min_value, max_value, value):
+
+    if value < min_value:
+        return min_value
+
+    if value > max_value:
+        return max_value
+
+    return value
+
+
+class AudioBar:
+    def __init__(self, x, y, freq, color, width=50, min_height=10, max_height=100, min_decibel=-80, max_decibel=0):
+        self.x, self.y, self.freq = x, y, freq
+        self.color = color
+        self.width, self.min_height, self.max_height = width, min_height, max_height
+        self.height = min_height
+        self.min_decibel, self.max_decibel = min_decibel, max_decibel
+        self.__decibel_height_ratio = (self.max_height - self.min_height)/(self.max_decibel - self.min_decibel)
+    def update(self, dt, decibel):
+        desired_height = decibel * self.__decibel_height_ratio + self.max_height
+        speed = (desired_height - self.height)/0.1
+        self.height += speed * dt
+        self.height = clamp(self.min_height, self.max_height, self.height)
+    def render(self, screen):
+            pygame.draw.rect(screen, self.color, (self.x, self.y + self.max_height - self.height, self.width, self.height))
+
 print("Enter the audio file in mp3 format:- ")
 src = input()
+
 # files                                                                         
-# src = "transcript.mp3"
 dst = "test.wav"
 
 # convert wav to mp3                                                            
 sound = AudioSegment.from_mp3(src)
 sound.export(dst, format="wav")
 
-# Opening audio file as binary data
-obj = wave.open(dst, 'rb')
+#getting information about file
+time_series, sample_rate = librosa.load(dst)
 
-# create matplotlib figure and axes
-fig, ax = plt.subplots(1, figsize=(15, 7))
+# getting a matrix which contains amplitude values according to frequency and time indexes
+stft = np.abs(librosa.stft(time_series, hop_length=512, n_fft=2048*4))
 
-#Code for playing
-# Instantiate PyAudio
-p = pyaudio.PyAudio()
-file_sw = obj.getsampwidth()
+# converting the matrix to decibel matrix
+spectrogram = librosa.amplitude_to_db(stft, ref=np.max)
 
-stream = p.open(format=p.get_format_from_width(file_sw),
-                channels=obj.getnchannels(),
-                rate=obj.getframerate(),
-                output=True,
-                frames_per_buffer=CHUNK)
+# getting an array of frequencies
+frequencies = librosa.core.fft_frequencies(n_fft=2048*4)  
 
-# variable for plotting
-x = np.arange(0, 2 * CHUNK, 2)
+# getting an array of time periodic
+times = librosa.core.frames_to_time(np.arange(spectrogram.shape[1]), sr=sample_rate, hop_length=512, n_fft=2048*4)
+time_index_ratio = len(times)/times[len(times) - 1]
+frequencies_index_ratio = len(frequencies)/frequencies[len(frequencies)-1]
 
-# create a line object with random data
-line, = ax.plot(x, np.random.rand(CHUNK), '-', lw=2)
+def get_decibel(self, target_time, freq):
+    return spectrogram[int(freq * frequencies_index_ratio )][int(target_time * time_index_ratio)]
 
-# show the plot
-plt.show(block=False)
+pygame.init()
 
-print('stream started')
+infoObject = pygame.display.Info()
 
-# for measuring frame rate
-frame_count = 0
-start_time = time.time()
+screen_w = int(infoObject.current_w/2.5)
+screen_h = int(infoObject.current_w/2.5)
 
-while True:
-    
-    # binary data
-    
-    data = obj.readframes(CHUNK) 
-  
-    # convert data to integers, make np array, then offset it by 127
-    data_int = struct.unpack(str(2*CHUNK) + 'B', data)
-    
-    # create np array and offset by 128
-    data_np = np.array(data_int, dtype='b')[::2] + 128
-    
-    line.set_ydata(data_np)
-    
-    # update figure canvas
-    try:
-        fig.canvas.draw()
-        fig.canvas.flush_events()
-        frame_count += 1
-        
-    except :
-        
-        # calculate average frame rate
-        frame_rate = frame_count / (time.time() - start_time)
-        
-        print('stream stopped')
-        print('average frame rate = {:.0f} FPS'.format(frame_rate))
-        break
+# Set up the drawing window
+screen = pygame.display.set_mode([screen_w, screen_h])
+
+
+bars = []
+
+
+frequencies = np.arange(100, 8000, 100)
+
+r = len(frequencies)
+
+
+width = screen_w/r
+
+
+x = (screen_w - (width*r))/2
+
+for c in frequencies:
+    bars.append(AudioBar(x, 300, c, (255, 0, 0), max_height=400, width=width))
+    x += width
+
+t = pygame.time.get_ticks()
+getTicksLastFrame = t
+
+pygame.mixer.music.load(dst)
+pygame.mixer.music.play(0)
+
+# Run until the user asks to quit
+running = True
+while running:
+
+    t = pygame.time.get_ticks()
+    deltaTime = (t - getTicksLastFrame) / 1000.0
+    getTicksLastFrame = t
+
+    # Did the user click the window close button?
+    for event in pygame.event.get():
+        if event.type == pygame.QUIT:
+            running = False
+
+    # Fill the background with white
+    screen.fill((255, 255, 255))
+
+    for b in bars:
+        b.update(deltaTime, get_decibel(b,pygame.mixer.music.get_pos()/1000.0, b.freq))
+        b.render(screen)
+
+    # Flip the display
+    pygame.display.flip()
+
+# Done! Time to quit.
+pygame.quit()
