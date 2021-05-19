@@ -6,6 +6,16 @@ import pygame
 from os import path
 from pydub import AudioSegment
 
+def make_video(screen):
+    image_num = 0
+    while True:
+        image_num += 1
+        str_num = "000" + str(image_num)
+        file_name = "image" + str_num[-4:] + ".jpg"
+        pygame.image.save(screen, file_name)
+        # print("In generator ", file_name)  # delete, just for demonstration
+        # pygame.time.wait(1000)  # delete, just for demonstration
+        yield
 
 def clamp(min_value, max_value, value):
 
@@ -101,6 +111,9 @@ getTicksLastFrame = t
 pygame.mixer.music.load(dst)
 pygame.mixer.music.play(0)
 
+save_screen = make_video(screen)  # initiate the video generator
+video = True  # at start: video not active
+
 # Run until the user asks to quit
 running = True
 while running:
@@ -114,6 +127,10 @@ while running:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             running = False
+            video = False
+        # # toggle video on/off by clicking 'v' on keyboard #
+        # elif event.type == pygame.KEYDOWN and event.key == pygame.K_v:
+        #      video = not video
 
     # Fill the background with white
     screen.fill((255, 255, 255))
@@ -126,6 +143,10 @@ while running:
         
     # Flip the display
     pygame.display.flip()
+
+    if video:
+        next(save_screen)  # call the generator
+        # print("IN main")  # delete, just for demonstration
 
 # Done! Time to quit.
 pygame.quit()
