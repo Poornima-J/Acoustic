@@ -7,7 +7,11 @@ import numpy as np
 import pyaudio
 import wave
 import sys
+import struct 
+import time
 
+
+CHUNK = 1024*2
 print("Enter the audio file in mp3 format:- ")
 src = input()
 # files                                                                         
@@ -21,61 +25,60 @@ sound.export(dst, format="wav")
 # Opening audio file as binary data
 obj = wave.open(dst, 'rb')
 
-# #Code for playing
-# # Instantiate PyAudio
-# p = pyaudio.PyAudio()
-# file_sw = obj.getsampwidth()
+# create matplotlib figure and axes
+fig, ax = plt.subplots(1, figsize=(15, 7))
 
-# stream = p.open(format=p.get_format_from_width(file_sw),
-#                 channels=obj.getnchannels(),
-#                 rate=obj.getframerate(),
-#                 output=True)
+#Code for playing
+# Instantiate PyAudio
+p = pyaudio.PyAudio()
+file_sw = obj.getsampwidth()
 
-# data = obj.readframes(-1)
+stream = p.open(format=p.get_format_from_width(file_sw),
+                channels=obj.getnchannels(),
+                rate=obj.getframerate(),
+                output=True,
+                frames_per_buffer=CHUNK)
 
-# while len(data)>0:
-#     stream.write(data)
-#     data = obj.readframes(-1)
+# variable for plotting
+x = np.arange(0, 2 * CHUNK, 2)
 
-signal = obj.readframes(-1)
-signal = np.frombuffer(signal, dtype ="int16")
-      
-    # gets the frame rate
-f_rate = obj.getframerate()
+# create a line object with random data
+line, = ax.plot(x, np.random.rand(CHUNK), '-', lw=2)
+
+# show the plot
+plt.show(block=False)
+
+print('stream started')
+
+# for measuring frame rate
+frame_count = 0
+start_time = time.time()
+
+while True:
+    
+    # binary data
+    
+    data = obj.readframes(CHUNK) 
   
-    # to Plot the x-axis in seconds 
-    # you need get the frame rate 
-    # and divide by size of your signal
-    # to create a Time Vector 
-    # spaced linearly with the size 
-    # of the audio file
-time = np.linspace(
-    0, # start
-    len(signal) / f_rate,
-    num = len(signal)
-)
-  
-    # using matlplotlib to plot
-    # creates a new figure
-plt.figure(1)
-plt.axis("off")
-      
-    # title of the plot
-# plt.title("Sound Wave")
-      
-    # label of x-axis
-# plt.xlabel("Time")
-     
-    # actual ploting
-plt.plot(time, signal)
-      
-    # shows the plot 
-    # in new window
-plt.show()
-
-# stream.stop_stream()
-# stream.close()
-
-# p.terminate()
-obj.close()
-
+    # convert data to integers, make np array, then offset it by 127
+    data_int = struct.unpack(str(2*CHUNK) + 'B', data)
+    
+    # create np array and offset by 128
+    data_np = np.array(data_int, dtype='b')[::2] + 128
+    
+    line.set_ydata(data_np)
+    
+    # update figure canvas
+    try:
+        fig.canvas.draw()
+        fig.canvas.flush_events()
+        frame_count += 1
+        
+    except :
+        
+        # calculate average frame rate
+        frame_rate = frame_count / (time.time() - start_time)
+        
+        print('stream stopped')
+        print('average frame rate = {:.0f} FPS'.format(frame_rate))
+        break
