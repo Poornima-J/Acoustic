@@ -3,8 +3,20 @@ import matplotlib.pyplot as plt
 import numpy as np
 import librosa.display 
 import pygame 
+import os
+import wave
+import subprocess
+import mutagen
+from mutagen.wave import WAVE
 from os import path
 from pydub import AudioSegment
+
+def convert_seq_to_mov():
+    input = r"image%04d.jpg"
+    output = r"image/"+str(src)[:-4]+".mp4"
+    cmd = f'ffmpeg -framerate {frame_rate} -i "{input}" "{output}"'
+    print(cmd)
+    subprocess.check_output(cmd, shell=True)
 
 def make_video(screen):
     image_num = 0
@@ -54,6 +66,27 @@ dst = "test.wav"
 sound = AudioSegment.from_mp3(src)
 sound.export(dst, format="wav")
 
+# function to convert the information into 
+# some readable format
+def audio_duration(length):
+    hours = length // 3600  # calculate in hours
+    length %= 3600
+    mins = length // 60  # calculate in minutes
+    length %= 60
+    seconds = length  # calculate in seconds
+  
+    return hours, mins, seconds  # returns the duration
+  
+# Create a WAVE object
+# Specify the directory address of your wavpack file
+# "alarm.wav" is the name of the audiofile
+audio = WAVE(dst)
+  
+# contains all the metadata about the wavpack file
+audio_info = audio.info
+length = audio_info.length
+# hours, mins, seconds = audio_duration(length)
+
 #getting information about file
 time_series, sample_rate = librosa.load(dst)
 
@@ -86,7 +119,7 @@ screen = pygame.display.set_mode([screen_w, screen_h])
 
 pygame.display.set_caption(src)
 
-background = pygame.image.load("image2.jpg")
+background = pygame.image.load("image/image2.jpg")
 
 bars = []
 
@@ -107,13 +140,13 @@ for c in frequencies:
 
 t = pygame.time.get_ticks()
 getTicksLastFrame = t
-
+count=0
 pygame.mixer.music.load(dst)
 pygame.mixer.music.play(0)
 
 save_screen = make_video(screen)  # initiate the video generator
 video = True  # at start: video not active
-
+count=0
 # Run until the user asks to quit
 running = True
 while running:
@@ -145,8 +178,12 @@ while running:
     pygame.display.flip()
 
     if video:
-        next(save_screen)  # call the generator
+        next(save_screen) 
+        count+=1 # call the generator
         # print("IN main")  # delete, just for demonstration
 
 # Done! Time to quit.
 pygame.quit()
+print(length,count)
+frame_rate=count/length
+convert_seq_to_mov()
