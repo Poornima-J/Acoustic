@@ -7,6 +7,7 @@ import os
 import wave
 import subprocess
 import mutagen
+import moviepy.editor as mpe
 from mutagen.wave import WAVE
 from os import path
 from pydub import AudioSegment
@@ -187,3 +188,9 @@ pygame.quit()
 print(length,count)
 frame_rate=count/length
 convert_seq_to_mov()
+
+#Combine auido and video
+clip = mpe.VideoFileClip("image/"+str(src)[:-4]+".mp4")
+audio_bg = mpe.AudioFileClip(str(src))
+final_clip = clip.set_audio(audio_bg)
+final_clip.write_videofile("image/"+str(src)[:-4]+"2.mp4") 
