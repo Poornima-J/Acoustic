@@ -8,6 +8,7 @@ import wave
 import subprocess
 import mutagen
 import moviepy.editor as mpe
+import time
 from mutagen.wave import WAVE
 from os import path
 from pydub import AudioSegment
@@ -26,8 +27,6 @@ def make_video(screen):
         str_num = "000" + str(image_num)
         file_name = "image" + str_num[-4:] + ".jpg"
         pygame.image.save(screen, file_name)
-        # print("In generator ", file_name)  # delete, just for demonstration
-        # pygame.time.wait(1000)  # delete, just for demonstration
         yield
 
 def clamp(min_value, max_value, value):
@@ -67,8 +66,7 @@ dst = "test.wav"
 sound = AudioSegment.from_mp3(src)
 sound.export(dst, format="wav")
 
-# function to convert the information into 
-# some readable format
+# function to convert the information into some readable format
 def audio_duration(length):
     hours = length // 3600  # calculate in hours
     length %= 3600
@@ -78,15 +76,12 @@ def audio_duration(length):
   
     return hours, mins, seconds  # returns the duration
   
-# Create a WAVE object
-# Specify the directory address of your wavpack file
-# "alarm.wav" is the name of the audiofile
+# Create a WAVE object Specify the directory address of your wavpack file
 audio = WAVE(dst)
   
 # contains all the metadata about the wavpack file
 audio_info = audio.info
 length = audio_info.length
-# hours, mins, seconds = audio_duration(length)
 
 #getting information about file
 time_series, sample_rate = librosa.load(dst)
@@ -148,23 +143,23 @@ pygame.mixer.music.play(0)
 save_screen = make_video(screen)  # initiate the video generator
 video = True  # at start: video not active
 count=0
+
 # Run until the user asks to quit
 running = True
+begin=end=time.time()
 while running:
 
     t = pygame.time.get_ticks()
     deltaTime = (t - getTicksLastFrame) / 1000.0
     getTicksLastFrame = t
     
-
+    if (end-begin)>=length :
+        running=False
     # Did the user click the window close button?
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             running = False
             video = False
-        # # toggle video on/off by clicking 'v' on keyboard #
-        # elif event.type == pygame.KEYDOWN and event.key == pygame.K_v:
-        #      video = not video
 
     # Fill the background with white
     screen.fill((255, 255, 255))
@@ -178,14 +173,15 @@ while running:
     # Flip the display
     pygame.display.flip()
 
+    end=time.time()
     if video:
         next(save_screen) 
         count+=1 # call the generator
-        # print("IN main")  # delete, just for demonstration
 
-# Done! Time to quit.
+# Done! Time to quit pygame screen.
 pygame.quit()
-print(length,count)
+
+# To determine fps for converting audio to video
 frame_rate=count/length
 convert_seq_to_mov()
 
