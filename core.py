@@ -190,3 +190,12 @@ clip = mpe.VideoFileClip("image/"+str(src)[:-4]+".mp4")
 audio_bg = mpe.AudioFileClip(str(src))
 final_clip = clip.set_audio(audio_bg)
 final_clip.write_videofile("image/"+str(src)[:-4]+"2.mp4") 
+
+#code to delete audio,video and image files
+os.remove(src) 
+os.remove(str(src)[:-4]+".wav")
+os.remove("image/"+str(src)[:-4]+".mp4")
+test = os.listdir(".")
+for images in test:
+    if images.endswith(".jpg"):
+        os.remove(os.path.join(".", images))
