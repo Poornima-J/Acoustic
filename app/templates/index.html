@@ -2,7 +2,11 @@
 
 {% block content %}
   <h1>Hello,{{ current_user.username }}!</h1>
-  {% for post in posts %}
-  <div><p>{{ post.author.username }} says: <b>{{ post.body }}</b></p></div>
-  {% endfor %}
+  <div>
+    <p>This is a audio visualising web application through which you can enter a mp3 audio file of your choice and it gets converted to a corresponding video file
+    The output video file will be a visualisation of audio with a really nice background too.<br></p>
+    <h3>Wanna use it ??</h3>
+    <p>What are you waiting for ? Go ahead to the convert section and give it a try.</p>
+  </div>
+
 {% endblock %}

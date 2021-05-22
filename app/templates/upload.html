@@ -1,12 +1,10 @@
 {% extends "base.html" %}
 
 {% block content %}
-  <div id="audioContainer">
-    <h1>Upload audio file</h1>
-    <form method="post" action= "/success" enctype="multipart/form-data">
-      <p><input type="file" name="file" accept=".mp3"></p>
-      <br>
-      <p><input type="submit" value="Convert"></p>
-    </form>
-  </div>
+    <div>
+      <p><b>User: </b>{{ user.username }}</p>
+      <p><b>Email: </b>{{ user.email }}</p>
+    </div>
+    <b>Saved Video History</b>
+    
 {% endblock %}

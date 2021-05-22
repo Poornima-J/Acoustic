@@ -106,5 +106,6 @@ def success():
             if file_ext not in app.config['UPLOAD_EXTENSIONS']:
                 abort(400)
             src.save(os.path.join(app.config['UPLOAD_PATH'], filename))
+            os.system('python3 app/core.py '+str(src.filename))   
             #return redirect(url_for('uploaded_file',filename=filename))
         return render_template("success.html", name = src.filename)
