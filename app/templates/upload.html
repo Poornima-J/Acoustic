@@ -3,14 +3,15 @@
 
 {% block content %}
 
-<div style="border: 2px solid black; width: 500px; margin-left: 450px;  background-color: aliceblue; background-image: url(675604.jpg); border-radius: 25px; text-align: center; margin-top: 50px; height: 230px;">
+<div style="border: 2px solid black; width: 800px; margin-left: 450px;  background-color: aliceblue; background-image: url(675604.jpg); border-radius: 25px; text-align: center; margin-top: 50px; ">
   <div id="audioContainer">
-    <br><h1>Upload audio file</h1><br>
+    <br><h1>Upload audio file And Convert it into Video</h1><br>
     <form method="post" action= "/success" enctype="multipart/form-data">
       <p><input type="file" name="file" accept=".mp3"></p>
       <br>
-      <p><input type="submit" value="Convert"></p>
+      <p><input type="submit" value="Convert"></p><br>
     </form>
+    <p>Click Convert button to convert uploaded audio to video.<br><b>Caution:- </b>This process may take sometime.</p>
   </div>
 </div>
 

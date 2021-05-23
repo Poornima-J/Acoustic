@@ -1,9 +1,12 @@
 {% extends "base.html" %}
 
 {% block content %}
-     <div style="border: 2px solid black; width: 500px; margin-left: 450px;  background-color: aliceblue; background-image: url(675604.jpg); border-radius: 25px; text-align: center; margin-top: 50px; height: 230px;" >
-        <h1>Download File</h1>
+
+     <div style="border: 2px solid black; width: 600px; margin-left: 450px;  background-color: aliceblue; background-image: url(675604.jpg); border-radius: 25px; text-align: center; margin-top: 50px; height: 230px;" >
+        <br><h1>Download your video file here</h1>
         <br><br>
-        <a href="/return-files/{{value}}" target="blank"><button class='btn btn-default'>Download</button></a>
+        <div >
+         <a href="/return-files/{{value}}" target="blank" ><button class='btn btn-default' style="border: 2px solid black;  text-align: center;" >Download</button></a>
+        </div>
      </div>
 {% endblock %}
