@@ -7,6 +7,7 @@ import os
 import wave
 import subprocess
 import mutagen
+import sys
 import moviepy.editor as mpe
 import time
 from mutagen.wave import WAVE
@@ -15,7 +16,7 @@ from pydub import AudioSegment
 
 def convert_seq_to_mov():
     input = r"image%04d.jpg"
-    output = r"image/"+str(src)[:-4]+".mp4"
+    output = r"downloads/"+str(src)[:-4]+".mp4"
     cmd = f'ffmpeg -framerate {frame_rate} -i "{input}" "{output}"'
     print(cmd)
     subprocess.check_output(cmd, shell=True)
@@ -56,14 +57,13 @@ class AudioBar:
     def render(self, screen):
             pygame.draw.rect(screen, self.color, (self.x, self.y + self.max_height - self.height, self.width, self.height))
 
-print("Enter the audio file in mp3 format:- ")
-src = input()
+src=sys.argv[1]
 
 # files                                                                         
 dst = "test.wav"
 
 # convert wav to mp3                                                            
-sound = AudioSegment.from_mp3(src)
+sound = AudioSegment.from_mp3("uploads/"+src)
 sound.export(dst, format="wav")
 
 # function to convert the information into some readable format
@@ -186,15 +186,15 @@ frame_rate=count/length
 convert_seq_to_mov()
 
 #Combine auido and video
-clip = mpe.VideoFileClip("image/"+str(src)[:-4]+".mp4")
-audio_bg = mpe.AudioFileClip(str(src))
+clip = mpe.VideoFileClip("downloads/"+str(src)[:-4]+".mp4")
+audio_bg = mpe.AudioFileClip("uploads/"+str(src))
 final_clip = clip.set_audio(audio_bg)
-final_clip.write_videofile("image/"+str(src)[:-4]+"2.mp4") 
+final_clip.write_videofile("downloads/"+str(src)[:-4]+"2.mp4")
 
 #code to delete audio,video and image files
-os.remove(src) 
-os.remove(str(src)[:-4]+".wav")
-os.remove("image/"+str(src)[:-4]+".mp4")
+os.remove("uploads/"+src) 
+os.remove("test.wav")
+os.remove("downloads/"+str(src)[:-4]+".mp4")
 test = os.listdir(".")
 for images in test:
     if images.endswith(".jpg"):
