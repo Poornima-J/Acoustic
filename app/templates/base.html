@@ -5,25 +5,42 @@
     {% else %}
     <title>Welcome to Acoustic!</title>
     {% endif %}
+     <!-- Required meta tags -->
+     <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+ 
+  <!-- Bootstrap CSS -->
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+
+
   </head>
-  <body>
-    <div>
+  <body style="background-image: url(https://wallpapercave.com/wp/wp5134484.jpg); background-repeat: no-repeat; background-size: cover;">
+    
+    <div style="text-align: center;">
+      
       Microblog:
-      <a href="{{ url_for('index') }}">Home</a>
+      <a  href="{{ url_for('index') }}">Home</a>
       {% if current_user.is_anonymous %}
-      <a href="{{ url_for('login') }}">Login</a>
+      <a  href="{{ url_for('login') }}">Login</a>
       {% else %}
-      <a href="{{ url_for('user', username=current_user.username) }}">My Profile</a>
-      <a href="{{ url_for('upload', username=current_user.username)}}">Convertor</a>
+      
+      <a  href="{{ url_for('user', username=current_user.username) }}">My Profile</a>
+   
+      <a  href="{{ url_for('upload', username=current_user.username)}}">Convertor</a>
       <a href="{{ url_for('logout') }}">Logout</a>
       {% endif %}
     </div>
+      <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+
+  
     <hr>
     {% with messages = get_flashed_messages() %}
     {% if messages %}
     <ul>
       {% for message in messages %}
-      <li>{{ messages }}</li>
+      <li style="color: crimson;border: 2px solid black; width: 260px; margin-left: 500px;background-color: aliceblue; border-radius: 25px; text-align: center;">{{ messages }}</li>
       {% endfor %}
     </ul>
     {% endif %}
