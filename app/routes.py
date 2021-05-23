@@ -1,7 +1,7 @@
 import os
 from flask_login import current_user, login_user, logout_user,login_required
 from app.models import User,FileContents
-from flask import render_template,flash,redirect,url_for, request,abort
+from flask import render_template,flash,redirect,url_for, request,abort, send_file
 from app import app
 from app import db
 from app.forms import LoginForm
@@ -106,6 +106,17 @@ def success():
             if file_ext not in app.config['UPLOAD_EXTENSIONS']:
                 abort(400)
             src.save(os.path.join(app.config['UPLOAD_PATH'], filename))
-            os.system('python3 app/core.py '+str(src.filename))   
+            os.system('python3 app/core.py '+str(src.filename))
             #return redirect(url_for('uploaded_file',filename=filename))
+            return redirect('/downloads/'+ str(src.filename)[:-4]+"2.mp4")
         return render_template("success.html", name = src.filename)
+
+
+# Download API
+@app.route("/downloads/<filename>", methods = ['GET'])
+def download_file(filename):
+    return render_template('download.html',value=filename)
+@app.route('/return-files/<filename>')
+def return_files_tut(filename):
+    file_path = "downloads/" + filename
+    return send_file(file_path, as_attachment=True, attachment_filename='')

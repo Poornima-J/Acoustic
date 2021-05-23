@@ -1,8 +1,8 @@
 # imports
 import matplotlib.pyplot as plt
 import numpy as np
-import librosa.display 
-import pygame 
+import librosa.display
+import pygame
 import os
 import wave
 import subprocess
@@ -16,7 +16,7 @@ from pydub import AudioSegment
 
 def convert_seq_to_mov():
     input = r"image%04d.jpg"
-    output = r"downloads/"+str(src)[:-4]+".mp4"
+    output = r"app/downloads/"+str(src)[:-4]+".mp4"
     cmd = f'ffmpeg -framerate {frame_rate} -i "{input}" "{output}"'
     print(cmd)
     subprocess.check_output(cmd, shell=True)
@@ -59,10 +59,10 @@ class AudioBar:
 
 src=sys.argv[1]
 
-# files                                                                         
+# files
 dst = "test.wav"
 
-# convert wav to mp3                                                            
+# convert wav to mp3
 sound = AudioSegment.from_mp3("uploads/"+src)
 sound.export(dst, format="wav")
 
@@ -73,12 +73,12 @@ def audio_duration(length):
     mins = length // 60  # calculate in minutes
     length %= 60
     seconds = length  # calculate in seconds
-  
+
     return hours, mins, seconds  # returns the duration
-  
+
 # Create a WAVE object Specify the directory address of your wavpack file
 audio = WAVE(dst)
-  
+
 # contains all the metadata about the wavpack file
 audio_info = audio.info
 length = audio_info.length
@@ -93,7 +93,7 @@ stft = np.abs(librosa.stft(time_series, hop_length=512, n_fft=2048*4))
 spectrogram = librosa.amplitude_to_db(stft, ref=np.max)
 
 # getting an array of frequencies
-frequencies = librosa.core.fft_frequencies(n_fft=2048*4)  
+frequencies = librosa.core.fft_frequencies(n_fft=2048*4)
 
 # getting an array of time periodic
 times = librosa.core.frames_to_time(np.arange(spectrogram.shape[1]), sr=sample_rate, hop_length=512, n_fft=2048*4)
@@ -152,7 +152,7 @@ while running:
     t = pygame.time.get_ticks()
     deltaTime = (t - getTicksLastFrame) / 1000.0
     getTicksLastFrame = t
-    
+
     if (end-begin)>=length :
         running=False
     # Did the user click the window close button?
@@ -169,13 +169,13 @@ while running:
     for b in bars:
         b.update(deltaTime, get_decibel(b,pygame.mixer.music.get_pos()/1000.0, b.freq))
         b.render(screen)
-        
+
     # Flip the display
     pygame.display.flip()
 
     end=time.time()
     if video:
-        next(save_screen) 
+        next(save_screen)
         count+=1 # call the generator
 
 # Done! Time to quit pygame screen.
@@ -186,15 +186,15 @@ frame_rate=count/length
 convert_seq_to_mov()
 
 #Combine auido and video
-clip = mpe.VideoFileClip("downloads/"+str(src)[:-4]+".mp4")
+clip = mpe.VideoFileClip("app/downloads/"+str(src)[:-4]+".mp4")
 audio_bg = mpe.AudioFileClip("uploads/"+str(src))
 final_clip = clip.set_audio(audio_bg)
-final_clip.write_videofile("downloads/"+str(src)[:-4]+"2.mp4")
+final_clip.write_videofile("app/downloads/"+str(src)[:-4]+"2.mp4")
 
 #code to delete audio,video and image files
-os.remove("uploads/"+src) 
+os.remove("uploads/"+src)
 os.remove("test.wav")
-os.remove("downloads/"+str(src)[:-4]+".mp4")
+os.remove("app/downloads/"+str(src)[:-4]+".mp4")
 test = os.listdir(".")
 for images in test:
     if images.endswith(".jpg"):
