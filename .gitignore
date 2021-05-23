@@ -2,4 +2,8 @@ s1.mp3
 s1.wav
 s2.mp3
 test.wav
-
+__pycache__/
+app.db
+app/__pycache__/errors.cpython-38.pyc
+downloads/
+venv/
