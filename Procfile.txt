@@ -1,2 +1,2 @@
-web: flask db upgrade; flask translate compile; gunicorn Acoustic:app
+web: flask db upgrade; flask translate compile; gunicorn Acoustic:app --preload
 heroku ps:scale web=1
