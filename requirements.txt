@@ -7,7 +7,6 @@ chardet==4.0.0
 click==8.0.0
 colorama==0.4.4
 cycler==0.10.0
-dbus-python==1.2.16
 decorator==4.4.2
 dnspython==2.1.0
 email-validator==1.1.2
