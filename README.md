@@ -50,8 +50,7 @@ BFH/recxwXAZaQIWv0B3n/2021
 7. There is also a logout page through which you can logout of the web app.
 
 ## Libraries used
-matplotlib, numpy, librosa, pygame, OS, wave, subprocess, mutagen, sys, moviepy, pydub, time  
-
+matplotlib==3.4.2, numpy==1.20.3, librosa==0.8.0, pygame==2.0.1, Wave==0.0.2,mutagen==1.45.1, moviepy==1.0.3, pydub==0.25.1,Flask==2.0.0, Flask-Login==0.5.0, Flask-Migrate==3.0.0, Flask-SQLAlchemy==2.5.1, Flask-WTF==0.14.3
 
 ## How to configure
 
@@ -73,21 +72,60 @@ matplotlib, numpy, librosa, pygame, OS, wave, subprocess, mutagen, sys, moviepy,
 14. The operation that converts a template into a complete HTML page is called rendering. To render the template we import a function that comes with the Flask framework called `render_template()`. This function takes a template filename and a variable list of template arguments and returns the same template, but with all the placeholders in it replaced with actual values.Templates also support control statements, given inside `{% ... %}` blocks
 16. To handle the web forms in the application we use the Flask-WTF extension, which is a thin wrapper around the WTForms package that nicely integrates it with Flask. 
 ```
-pip install flask-wtf
+$ pip install flask-wtf
 ```
 **Setting up Database**
 ```
-pip install flask-sqlalchemy
+$ pip install flask-sqlalchemy
 ```
 This is an extension that provides a Flask-friendly wrapper to the popular SQLAlchemy package, which is an Object Relational Mapper or ORM.
 
 ```
+$ pip install flask-migrate
+```
+This extension is a Flask wrapper for Alembic, a database migration framework for SQLAlchemy.In `__init__.py `, add a `db` object that represents the database. Then add another object that represents the migration engine.`models`  module is impoted which will define the structure of the database.The `flask db migrate` command does not make any changes to the database, it just generates the migration script. To apply the changes to the database, the `flask db upgrade command` must be used.  
+```
+$ pip install flask-login
+```
+This extension manages the user logged-in state, so that for example users can log in to the application and then navigate to different pages while the application "remembers" that the user is logged in. It also provides the "remember me" functionality that allows users to remain logged in even after closing the browser window.  
+```
+$ pip install email-validator
+```
+The `Email()` validator from WTForms requires an external dependency to be installed.
 
-
-
-
-
-    
+**Installing necessary python modules**
+```
+pip install matplotlib
+```
+Matplotlib is a plotting library for the Python programming language and it's numerical mathematics extension NumPy library
+```
+pip install librosa
+```
+librosa is a python package for music and audio analysis. It provides the building blocks necessary to create music information retrieval systems.  
+```
+pip install pygame
+```
+Pygame is a cross-platform set of Python modules designed for writing video games.  
+```
+pip install os
+```
+The OS module in Python provides functions for interacting with the operating system.  
+```
+pip install wave
+```
+The wave module in Python's standard library is an easy interface to the audio WAV format.  
+```
+pip install subprocess
+```
+ It helps to obtain the input/output/error pipes as well as the exit codes of various commands.  
+ ```
+pip install mutagen
+```
+Mutagen is a Python module to handle audio metadata.  
+```
+pip install moviepy
+```
+MoviePy is a Python library for video editing: cutting, concatenations, title insertions, video compositing (a.k.a. non-linear editing), video processing, and creation of custom effects.
 
 ## How to Run
 Instructions for running
