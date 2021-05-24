@@ -6,7 +6,6 @@ cffi==1.14.5
 chardet==4.0.0
 click==8.0.0
 colorama==0.4.4
-command-not-found==0.3
 cycler==0.10.0
 dbus-python==1.2.16
 decorator==4.4.2
