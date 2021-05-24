@@ -33,15 +33,15 @@ The user also can log out of their account using logout option.If they had check
 3. [Poornima J](https://github.com/Poornima-J)
 
 ## Team Id
-Our TeamID: BFH/recxwXAZaQIWv0B3n/2021
+BFH/recxwXAZaQIWv0B3n/2021
 
 ## Link to product walkthrough
 [link to video]
 
 ## How it Works
 1. Once you run the project, the first thing that you will see on your web browser is a Sign in Page, which has 2 options.  
-    a. If you are a new user,that is you don't have an account in this web app then you can create a new one by clicking on Register option and filling out username, email and a password.  
-    b. If you already have an account then, just use your login credentials and if you select Remember me option then the next time you login, you can automatically sign in.  
+   - If you are a new user,that is you don't have an account in this web app then you can create a new one by clicking on Register option and filling out username, email and a password.  
+   - If you already have an account then, just use your login credentials and if you select Remember me option then the next time you login, you can automatically sign in.  
 2. Next comes the home page , where you are welcomed by a welcome note which details on what does this web app really do and on which page is this functionality executed.  
 3. There a My profile page which lists the details that you gave while creating an account
 4. Then comes Convertor page which has the browse option to upload an audio file in mp3 format and the convert option enables you to convert the audio that you just entered into a video which contains a pretty good visualisation of audio. 
@@ -50,10 +50,44 @@ Our TeamID: BFH/recxwXAZaQIWv0B3n/2021
 7. There is also a logout page through which you can logout of the web app.
 
 ## Libraries used
-Library Name - Version
+matplotlib, numpy, librosa, pygame, OS, wave, subprocess, mutagen, sys, moviepy, pydub, time  
+
 
 ## How to configure
-Instructions for setting up project
+
+**Setting up Flask**
+1. First install python in your computer acoording to your system configurations if you don't have it and make sure it is functional by typing in `python` or `python3` in the terminal.  
+2. Create a directory for your project and move to that directory, say microblog.  
+3. create a virtual environment in this directory by typing in the command `python3 -m venv venv`(for windows) and 
+`sudo apt-get install virtualenv` (for linux).  
+4. To activate your brand new virtual environment you use the following command `source venv/bin/activate` OR `venv/Scripts/activate` (for windows) and `virtualenv venv` (for linux)
+5. Now install flask in it using command: `pip install flask`
+6. Create a package called app,inside the microblog, using the following command: `mkdir app`.  
+7. Create an `__init__.py` for app.  
+8. The routes are the different URLs that the application implements. In Flask, handlers for the application routes are written as Python functions, called view functions. View functions are mapped to one or more route URLs so that Flask knows what logic to execute when a client requests a given URL.so create a `routes.py` in app
+9. To complete the application, you need to have a Python script at the top-level that defines the Flask application instance. so create a `microblog.py`
+10. now type in terminal `export FLASK_APP=microblog.py` or `set FLASK_APP=microblog.py`(for windows)  
+11. now type in terminal `flask run`
+12. Go to `http://localhost:5000/` to see ur application.  
+13. In Flask, templates are written as separate files, stored in a templates folder that is inside the application package.So create a folder templates ,inside the app, using the following command: `mkdir templates`
+14. The operation that converts a template into a complete HTML page is called rendering. To render the template we import a function that comes with the Flask framework called `render_template()`. This function takes a template filename and a variable list of template arguments and returns the same template, but with all the placeholders in it replaced with actual values.Templates also support control statements, given inside `{% ... %}` blocks
+16. To handle the web forms in the application we use the Flask-WTF extension, which is a thin wrapper around the WTForms package that nicely integrates it with Flask. 
+```
+pip install flask-wtf
+```
+**Setting up Database**
+```
+pip install flask-sqlalchemy
+```
+This is an extension that provides a Flask-friendly wrapper to the popular SQLAlchemy package, which is an Object Relational Mapper or ORM.
+
+```
+
+
+
+
+
+    
 
 ## How to Run
 Instructions for running
