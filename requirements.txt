@@ -58,5 +58,5 @@ urllib3==1.26.4
 Wave==0.0.2
 Werkzeug==2.0.0
 WTForms==2.3.3
-gunicorn
-psycopg2
+psycopg2==2.7.3.1
+gunicorn==19.7.1
