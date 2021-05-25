@@ -36,7 +36,7 @@ The user also can log out of their account using logout option.If they had check
 BFH/recxwXAZaQIWv0B3n/2021
 
 ## Link to product walkthrough
-[link to video]
+[click here](https://www.loom.com/share/b55388273f37433d872b0484607ce68f)
 
 ## How it Works
 1. Once you run the project, the first thing that you will see on your web browser is a Sign in Page, which has 2 options.  
