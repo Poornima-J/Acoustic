@@ -4,6 +4,5 @@ s2.mp3
 test.wav
 __pycache__/
 app.db
-downloads/
 venv/
 app/__pycache__
