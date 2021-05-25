@@ -50,8 +50,7 @@ BFH/recxwXAZaQIWv0B3n/2021
 7. There is also a logout page through which you can logout of the web app.
 
 ## Libraries used
-matplotlib==3.4.2, numpy==1.20.3, librosa==0.8.0, pygame==2.0.1, Wave==0.0.2,mutagen==1.45.1, moviepy==1.0.3, pydub==0.25.1  
-Flask==2.0.0, Flask-Login==0.5.0, Flask-Migrate==3.0.0, Flask-SQLAlchemy==2.5.1, Flask-WTF==0.14.3
+matplotlib==3.4.2, numpy==1.20.3, librosa==0.8.0, pygame==2.0.1, Wave==0.0.2,mutagen==1.45.1, moviepy==1.0.3, pydub==0.25.1,Flask==2.0.0, Flask-Login==0.5.0, Flask-Migrate==3.0.0, Flask-SQLAlchemy==2.5.1, Flask-WTF==0.14.3
 
 ## How to configure
 
@@ -96,50 +95,37 @@ The `Email()` validator from WTForms requires an external dependency to be ins
 
 **Installing necessary python modules**
 ```
-$ pip install matplotlib
+pip install matplotlib
 ```
 Matplotlib is a plotting library for the Python programming language and it's numerical mathematics extension NumPy library
 ```
-$ pip install librosa
+pip install librosa
 ```
 librosa is a python package for music and audio analysis. It provides the building blocks necessary to create music information retrieval systems.  
 ```
-$ pip install pygame
+pip install pygame
 ```
 Pygame is a cross-platform set of Python modules designed for writing video games.  
 ```
-$ pip install os
+pip install os
 ```
 The OS module in Python provides functions for interacting with the operating system.  
 ```
-$ pip install wave
+pip install wave
 ```
 The wave module in Python's standard library is an easy interface to the audio WAV format.  
 ```
-$ pip install subprocess
+pip install subprocess
 ```
  It helps to obtain the input/output/error pipes as well as the exit codes of various commands.  
  ```
-$ pip install mutagen
+pip install mutagen
 ```
 Mutagen is a Python module to handle audio metadata.  
 ```
-$ pip install moviepy
+pip install moviepy
 ```
 MoviePy is a Python library for video editing: cutting, concatenations, title insertions, video compositing (a.k.a. non-linear editing), video processing, and creation of custom effects.
 
 ## How to Run
-After setting up flask and database according to your system configurations install all the necessary python modules. Then craete a folder named `downloads` inside the `app` folder of `microblog` folder.Then open your terminal/command prompt and move into microblog folder using `cd` command and execute tha following commands given below 
-```
-$ venv/Scripts/activate
-```
-```
-$ Set FLASK_APP=microblog.py
-```
-```
-$ flask run
- ```
- 
-All the above commands are needed for windows users whereas linux users need only `$ flask run` command
- 
-
+Instructions for running

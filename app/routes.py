@@ -1,7 +1,7 @@
 import os
 from flask_login import current_user, login_user, logout_user,login_required
-from app.models import User,FileContents
-from flask import render_template,flash,redirect,url_for, request,abort, send_file
+from app.models import User, FileContents
+from flask import render_template,flash,redirect,url_for, request, abort,send_file
 from app import app
 from app import db
 from app.forms import LoginForm
@@ -10,18 +10,37 @@ from werkzeug.urls import url_parse
 from werkzeug.utils import secure_filename
 from flask import send_from_directory
 
-
 app.config['UPLOAD_EXTENSIONS'] = ['.mp3']
 app.config['UPLOAD_PATH'] = 'uploads'
 
 
+'''
+@app.route('/uploads/<filename>')
+def uploaded_file(filename):
+    return send_from_directory(app.config['UPLOAD_PATH'],filename)
+'''
+
+@app.route('/')
 @app.route('/index')
 @login_required
 def index():
-    return render_template('index.html',title='Home Page')
+    user={'username':'Miguel'}
+    posts=[
+        {
+            'author': {'username': 'John'},
+            'body': 'Beautiful day in Portland!'
+        },
+        {
+            'author': {'username': 'Susan'},
+            'body': 'The Avengers movie was so cool!'
+        },
+        {
+            'author': {'username': 'Kavya'},
+            'body': 'My favourite cuisine is Chinese'
+        }
+    ]
+    return render_template('index.html',title='Home Page',posts=posts)
 
-
-@app.route('/')
 @app.route('/login',methods=['GET','POST'])
 def login():
     if current_user.is_authenticated:
@@ -57,7 +76,12 @@ def register():
 @login_required
 def user(username):
     user=User.query.filter_by(username=username).first_or_404()
-    return render_template('user.html',user=user)
+    #video
+    posts=[
+        {'author': user, 'body': 'Test post #1'},
+        {'author': user, 'body': 'Test post #2'}
+    ]
+    return render_template('user.html',user=user,posts=posts)
 
 
 @app.route('/logout')
@@ -90,11 +114,10 @@ def success():
             if file_ext not in app.config['UPLOAD_EXTENSIONS']:
                 abort(400)
             src.save(os.path.join(app.config['UPLOAD_PATH'], filename))
-            os.system('python3 app/core.py '+str(src.filename)) 
+            os.system('python3 app/core.py '+str(src.filename))   
             #return redirect(url_for('uploaded_file',filename=filename))
             return redirect('/downloads/'+ str(src.filename)[:-4]+"2.mp4")
         return render_template("success.html", name = src.filename)
-
 
 # Download API
 @app.route("/downloads/<filename>", methods = ['GET'])
