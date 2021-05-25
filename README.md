@@ -50,7 +50,8 @@ BFH/recxwXAZaQIWv0B3n/2021
 7. There is also a logout page through which you can logout of the web app.
 
 ## Libraries used
-matplotlib==3.4.2, numpy==1.20.3, librosa==0.8.0, pygame==2.0.1, Wave==0.0.2,mutagen==1.45.1, moviepy==1.0.3, pydub==0.25.1,Flask==2.0.0, Flask-Login==0.5.0, Flask-Migrate==3.0.0, Flask-SQLAlchemy==2.5.1, Flask-WTF==0.14.3
+matplotlib==3.4.2, numpy==1.20.3, librosa==0.8.0, pygame==2.0.1, Wave==0.0.2,mutagen==1.45.1, moviepy==1.0.3, pydub==0.25.1  
+Flask==2.0.0, Flask-Login==0.5.0, Flask-Migrate==3.0.0, Flask-SQLAlchemy==2.5.1, Flask-WTF==0.14.3
 
 ## How to configure
 
@@ -128,4 +129,16 @@ pip install moviepy
 MoviePy is a Python library for video editing: cutting, concatenations, title insertions, video compositing (a.k.a. non-linear editing), video processing, and creation of custom effects.
 
 ## How to Run
-Instructions for running
+
+After setting up flask and database according to your system configurations install all the necessary python modules. Then craete a folder named `downloads` inside the `app` folder of `microblog` folder.Then open your terminal/command prompt and move into microblog folder using `cd` command and execute tha following commands given below 
+```
+$ venv/Scripts/activate
+```
+```
+$ Set FLASK_APP=microblog.py
+```
+```
+$ flask run
+``` 
+
+All the above commands are needed for windows users whereas linux users need only `$ flask run` command
