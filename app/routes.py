@@ -15,7 +15,6 @@ app.config['UPLOAD_EXTENSIONS'] = ['.mp3']
 app.config['UPLOAD_PATH'] = 'uploads'
 
 
-@app.route('/')
 @app.route('/index')
 @login_required
 def index():
@@ -36,6 +35,8 @@ def index():
     ]
     return render_template('index.html',title='Home Page',posts=posts)
 
+
+@app.route('/')
 @app.route('/login',methods=['GET','POST'])
 def login():
     if current_user.is_authenticated:
