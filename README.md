@@ -36,7 +36,7 @@ The user also can log out of their account using logout option.If they had check
 BFH/recxwXAZaQIWv0B3n/2021
 
 ## Link to product walkthrough
-[click here](https://www.loom.com/share/b55388273f37433d872b0484607ce68f)
+[click here](https://www.loom.com/share/52300e4cc85e46778d41c90a61e6bc0f)
 
 ## How it Works
 1. Once you run the project, the first thing that you will see on your web browser is a Sign in Page, which has 2 options.  
@@ -96,35 +96,35 @@ The `Email()` validator from WTForms requires an external dependency to be ins
 
 **Installing necessary python modules**
 ```
-pip install matplotlib
+$ pip install matplotlib
 ```
 Matplotlib is a plotting library for the Python programming language and it's numerical mathematics extension NumPy library
 ```
-pip install librosa
+$ pip install librosa
 ```
 librosa is a python package for music and audio analysis. It provides the building blocks necessary to create music information retrieval systems.  
 ```
-pip install pygame
+$ pip install pygame
 ```
 Pygame is a cross-platform set of Python modules designed for writing video games.  
 ```
-pip install os
+$ pip install os
 ```
 The OS module in Python provides functions for interacting with the operating system.  
 ```
-pip install wave
+$ pip install wave
 ```
 The wave module in Python's standard library is an easy interface to the audio WAV format.  
 ```
-pip install subprocess
+$ pip install subprocess
 ```
  It helps to obtain the input/output/error pipes as well as the exit codes of various commands.  
  ```
-pip install mutagen
+$ pip install mutagen
 ```
 Mutagen is a Python module to handle audio metadata.  
 ```
-pip install moviepy
+$ pip install moviepy
 ```
 MoviePy is a Python library for video editing: cutting, concatenations, title insertions, video compositing (a.k.a. non-linear editing), video processing, and creation of custom effects.
 
